@@ -41,3 +41,8 @@
 - Got: confirmation that no colour lives outside tokens.css, EN and FR have the same keys, money only goes through money.js and contrast passes in both themes (tightest pair 4.64:1). Nine fixes: a stepper separator hardcoded in JS; a blank page and a flow-bar jump on first load; a wait with no feedback on the language switch; a blank page if a copy file fails to load; the error panel pushing the form down and losing focus on retry; a loading button shrinking; the header wrapping at 375px in French; the sticky total bar hiding keyboard focus (WCAG 2.4.11); date values centred on iOS.
 - Checked: I tested the fixes by hand with ?fail=500 and with a refused licence.
 - My review: tested at 375px in French: one-line header, no horizontal scroll; server error and refusal panels appear right under the submit button with a clear way forward; tabbing through the add-ons never hides the focused one behind the sticky total; the language switch is instant and keeps the answers.
+
+## Step 8: README (Claude Code)
+- Asked: a short README with the run command "npx serve ." at the top, the project structure, how the tokens and i18n files work, and how to test the error cases.
+- Got: run command and why the folder must be served; one line per folder; the token layers and the dark values written twice; how copy keys work; a table of how to trigger each error case (?fail=409, ?fail=500, licence under two years, 3 claims, reload mid-flow) and what the customer should see; the reference total.
+- My review: Claude found an example key in an i18n.js comment that did not exist and corrected it. I followed the README's error table once in the browser before sending.

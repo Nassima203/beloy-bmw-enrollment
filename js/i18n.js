@@ -46,7 +46,7 @@ export function preloadLanguage(lang) {
 }
 
 // Returns the string for `key`, with {placeholders} replaced from `params`.
-// Example: t('flow.payment.dueBy', { date: '1 June 2027' })
+// Example: t('flow.payment.nextStep3', { date: '1 June 2027' })
 // Non-string values (like the landing "from" price) are returned as they are.
 export function t(key, params = {}) {
   const value = strings[key];
