@@ -59,6 +59,19 @@ export function getLocale() {
   return LOCALES[currentLang];
 }
 
+// Creates an element whose text comes from the copy file.
+// data-i18n lets translateDom() update it when the language changes.
+// createTextElement('p', 'screen__lead', 'flow.vehicle.lead')
+export function createTextElement(tag, className, key) {
+  const element = document.createElement(tag);
+  if (className) {
+    element.className = className;
+  }
+  element.dataset.i18n = key;
+  element.textContent = t(key);
+  return element;
+}
+
 // Fills static markup: <span data-i18n="flow.common.skipLink"></span>
 export function translateDom(root = document) {
   root.querySelectorAll('[data-i18n]').forEach((element) => {

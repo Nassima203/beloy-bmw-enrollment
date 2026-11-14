@@ -5,7 +5,7 @@
 // Every create function returns { element, … }: `element` goes into the page,
 // the other properties give the screen direct access to the controls.
 
-import { t } from '../i18n.js';
+import { t, createTextElement as textElement } from '../i18n.js';
 
 const ERROR_ICON =
   '<svg class="icon icon--small" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
@@ -18,15 +18,6 @@ let idCounter = 0;
 function nextId(name) {
   idCounter += 1;
   return `field-${name}-${idCounter}`;
-}
-
-// A text element filled from the copy file. data-i18n keeps it translatable.
-function textElement(tag, className, key) {
-  const node = document.createElement(tag);
-  node.className = className;
-  node.dataset.i18n = key;
-  node.textContent = t(key);
-  return node;
 }
 
 // Label (or legend) text, with "(Optional)" after it when asked.
@@ -73,8 +64,10 @@ function buildError(id) {
   return error;
 }
 
-// Text, date, number, email, tel…
+// Text, date, email, tel…
 // createInputField({ name: 'postcode', labelKey: 'flow.driver.postcodeLabel', inputMode: 'numeric' })
+// suffixKey: a unit shown inside the field, on the right (e.g. "km").
+// attributes: any extra HTML attributes, e.g. { min: '2026-11-15', maxlength: '5' }.
 export function createInputField({
   name,
   labelKey,
@@ -84,6 +77,8 @@ export function createInputField({
   inputMode = null,
   autocomplete = null,
   optional = false,
+  suffixKey = null,
+  attributes = {},
 }) {
   const id = nextId(name);
   const element = buildShell({ tag: 'div', id, labelKey, hintKey, optional });
@@ -97,8 +92,23 @@ export function createInputField({
   input.required = !optional;
   if (inputMode) input.inputMode = inputMode;
   if (autocomplete) input.autocomplete = autocomplete;
+  for (const [attribute, attributeValue] of Object.entries(attributes)) {
+    input.setAttribute(attribute, attributeValue);
+  }
 
-  element.append(input, buildError(id));
+  if (suffixKey) {
+    // The label already names the unit ("Kilometres…"), so the suffix is visual only.
+    const wrap = document.createElement('div');
+    wrap.className = 'field__input-wrap';
+    const suffix = textElement('span', 'field__suffix', suffixKey);
+    suffix.setAttribute('aria-hidden', 'true');
+    wrap.append(input, suffix);
+    element.append(wrap);
+  } else {
+    element.append(input);
+  }
+
+  element.append(buildError(id));
   updateDescribedBy(element, false);
   return { element, input };
 }
@@ -187,6 +197,70 @@ export function setFieldError(element, messageKey) {
   });
 
   updateDescribedBy(element, hasError);
+}
+
+// ---------------------------------------------------------------------------
+// Validation helpers. A "check" is a function that returns an i18n error key,
+// or null when the answer is fine.
+// ---------------------------------------------------------------------------
+
+// Inline validation: a field is checked when the customer leaves it after a
+// change (not while they type, and not when they just tab through an empty field).
+// Once it shows an error, it is re-checked on every keystroke so the error
+// disappears as soon as the answer is fixed.
+export function validateOnChange(field, check) {
+  field.element.addEventListener('change', () => {
+    setFieldError(field.element, check());
+  });
+  field.element.addEventListener('input', () => {
+    const error = field.element.querySelector('.field__error');
+    if (!error.hidden) {
+      setFieldError(field.element, check());
+    }
+  });
+}
+
+// On submit: runs every check, shows or clears each error,
+// and returns the first field in error (null if the form is valid).
+// validateFields([{ field: postcode, check: checkPostcode }, …])
+export function validateFields(entries) {
+  let firstInvalid = null;
+  for (const { field, check } of entries) {
+    const errorKey = check();
+    setFieldError(field.element, errorKey);
+    if (errorKey && !firstInvalid) {
+      firstInvalid = field;
+    }
+  }
+  return firstInvalid;
+}
+
+// Puts the cursor in a field (for a radio group: the chosen option, or the first).
+export function focusField(field) {
+  if (field.input) {
+    field.input.focus();
+  } else if (field.select) {
+    field.select.focus();
+  } else {
+    const checked = field.inputs.find((input) => input.checked);
+    (checked ?? field.inputs[0]).focus();
+  }
+}
+
+// Shared first step for every date check. An empty value means either
+// "nothing typed" or "only part of the date typed" (the browser reports
+// that as badInput), and they get different messages.
+export function dateEntryError(input) {
+  if (input.value !== '') {
+    return null;
+  }
+  return input.validity.badInput ? 'flow.validation.dateInvalid' : 'flow.validation.required';
+}
+
+// The value of the ticked radio, or '' if none.
+export function checkedValue(inputs) {
+  const checked = inputs.find((input) => input.checked);
+  return checked ? checked.value : '';
 }
 
 // The error id is only listed while the error shows: screen readers would

@@ -17,3 +17,9 @@
 - Got: a hash router that loads one screen module into <main id="app"> and moves focus to its h1; a skip link; theme and language saved in localStorage, defaulting to the OS and browser; buttons using aria-disabled so they stay focusable; fields with hints and errors linked for screen readers; logError() sending code, message and request_id to console.error only. Claude added the missing tokens (44px touch target, widths, spinner) and four i18n keys.
 - Checked: Claude ran syntax, i18n key and hardcoded-colour checks. I checked the layout at 375px and 320px in Chrome device mode, since Claude could not test phone widths.
 - My review: removed the stepper from the landing so it reads as a product page rather than a form; steps now start at the vehicle screen.
+
+## Step 4: landing, vehicle and driver screens (Claude Code, plan mode)
+- Asked: build the landing (product-page feel, "from" price through formatMoney, one call to action), the vehicle screen (prefilled i4, model select, future delivery date) and the driver screen (all fields, inline validation, createQuote with a loading state, human message on driver_ineligible).
+- Got: a hero with a BMW-style price tag and benefit cards; a "From your order" card with the list price read-only; seven driver fields validated on blur and on submit, with focus moved to the first error; a spinner button during the quote; "Edit my answers" for ineligible drivers and "Try again" for server or network errors. Claude also added a small dates.js helper.
+- Checked: I tested by hand: empty form (errors under each field, focus on the first), a valid profile (moves to step 3 of 5), a licence held under two years (clear refusal panel, no error code, "Edit my answers" returns to the licence field).
+- My review: fixed the French wordmark accent (Électrique instead of Electrique) in fr.json.

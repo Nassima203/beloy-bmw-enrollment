@@ -248,6 +248,24 @@ legend.field__label {
   box-shadow: 0 0 0 var(--focus-contrast-width) var(--color-focus-contrast);
 }
 
+/* Unit inside the field, on the right ("km"). */
+.field__input-wrap {
+  position: relative;
+}
+
+.field__input-wrap .field__input {
+  padding-inline-end: var(--space-12);
+}
+
+.field__suffix {
+  position: absolute;
+  top: 50%;
+  right: var(--space-4);
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
 /* Select: native control, our own chevron drawn with borders. */
 .field__select-wrap {
   position: relative;
@@ -409,5 +427,198 @@ legend.field__label {
 @media (min-width: 48em) {
   .error-panel {
     padding: var(--space-8);
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Order card and readout (js/screens/vehicle.js)                            */
+/* ------------------------------------------------------------------------ */
+
+/* Grey card for what arrived with the order. */
+.order-card {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  border-radius: var(--radius);
+  background: var(--color-surface-alt);
+}
+
+.order-card__tag {
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-label);
+  font-weight: var(--font-weight-clickable);
+  color: var(--color-text-muted);
+}
+
+/* A read-only value with its label (e.g. the configured price). */
+.readout {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+}
+
+.readout__label {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  font-weight: var(--font-weight-clickable);
+}
+
+.readout__value {
+  margin: 0;
+  font-size: var(--font-size-subsection-1);
+  line-height: var(--line-height-subsection-1);
+  font-weight: var(--font-weight-price);
+}
+
+@media (min-width: 48em) {
+  .order-card {
+    padding: var(--space-6);
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Landing (js/screens/landing.js): hero, price tag, benefits                */
+/* ------------------------------------------------------------------------ */
+
+/* Phones: one column. Desktop: the promise on the left, price and way in on the right. */
+.hero {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-areas:
+    "eyebrow"
+    "title"
+    "lead"
+    "aside";
+  padding: var(--space-8) var(--space-6);
+  border-radius: var(--radius);
+  background: var(--color-surface-alt);
+}
+
+.hero__eyebrow {
+  grid-area: eyebrow;
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  font-weight: var(--font-weight-clickable);
+  color: var(--color-text-muted);
+}
+
+.hero__title {
+  grid-area: title;
+}
+
+.hero__lead {
+  grid-area: lead;
+  max-width: var(--content-width);
+}
+
+.hero__aside {
+  grid-area: aside;
+  display: grid;
+  gap: var(--space-6);
+}
+
+.price-tag {
+  display: grid;
+  gap: var(--space-2);
+  padding-top: var(--space-6);
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.price-tag__amount {
+  font-size: var(--font-size-price);
+  line-height: var(--line-height-price);
+  font-weight: var(--font-weight-price);
+}
+
+.price-tag__note {
+  font-size: var(--font-size-body-3);
+  line-height: var(--line-height-body-3);
+  color: var(--color-text-muted);
+}
+
+.hero__cta {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.hero__cta-hint {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 64em) {
+  .hero {
+    grid-template-columns: 3fr 2fr;
+    grid-template-areas:
+      "eyebrow aside"
+      "title   aside"
+      "lead    aside";
+    grid-template-rows: auto auto 1fr;
+    column-gap: var(--space-16);
+    align-items: start;
+    padding: var(--space-16) var(--space-12);
+  }
+
+  .hero__aside {
+    align-self: center;
+  }
+
+  /* On the right column, the price tag sits on its own line, no top rule. */
+  .price-tag {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .hero__cta .button--block {
+    width: 100%;
+  }
+}
+
+.benefits {
+  display: grid;
+  gap: var(--space-6);
+  margin-top: var(--space-12);
+}
+
+.benefits__list {
+  display: grid;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.benefit {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.benefit__icon {
+  width: var(--icon-size-large);
+  height: var(--icon-size-large);
+}
+
+.benefit__body {
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 48em) {
+  .benefits__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 64em) {
+  .benefits {
+    margin-top: var(--space-16);
+  }
+
+  .benefits__list {
+    grid-template-columns: repeat(4, 1fr);
   }
 }

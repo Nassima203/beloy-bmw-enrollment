@@ -216,6 +216,7 @@
   --target-size: var(--size-11);     /* every control is at least 44 x 44px */
   --icon-size: var(--size-6);
   --icon-size-small: var(--size-4);
+  --icon-size-large: var(--size-8);
   --spinner-size: var(--size-4);
   --spinner-width: var(--line-2);
   --stepper-height: var(--line-4);
