@@ -87,6 +87,18 @@ BMW's round logo is not allowed. Stand-in: my own typographic wordmark ("BMW" in
 | Link | `#ffffff` | BMW dark `--link` | ✅ |
 | Error | `#ff6b6b` | adjusted | 5.4:1 on #262626 ✅ |
 | Success | `#3db014` | BMW | 5.3:1 on #262626 ✅ |
+| Surface alt (sections, callouts) | `#1a1a1a` | invented grey | secondary text #bbbbbb: 9.1:1 ✅ |
+| Input border | `#8e8e8e` | BMW `--input-border-color` | 4.6:1 on #262626 ✅ (3:1 required) |
+| Primary button hover | `#0653b6`, white text | same as light | 7.2:1 ✅ |
+| Primary button text | `#ffffff` | same as light | 5.2:1 on #1c69d4 ✅ |
+| Disabled button | `#4d4d4d`, text `#bbbbbb` | BMW palette greys | 4.4:1 (disabled, exempt) |
+| Secondary button hover | `#bbbbbb`, text `#262626` | BMW dark `--nba-hover` | 7.9:1 ✅ |
+| Link hover | `#bbbbbb` | BMW dark `--link-hover` | 10.9:1 on #000 ✅ |
+| Selected background | `#0f2a4d` | invented navy | white text 14.4:1 ✅ |
+| Focus ring | `#6ea0ec` + 1px white | AA adjustment 4 | 5.7:1 on #262626 ✅ |
+| Error background | `#3a1414` | invented | error text #ff6b6b 5.9:1 ✅ |
+| Success background | `#14301a` | invented | success text #3db014 5.1:1 ✅ |
+| Warning background | `#3d2e0a` | invented | white text 13.2:1 ✅ |
 
 Why it still reads as BMW: these are the values BMW already uses in its own dark sections, with the same blue for the primary action.
 

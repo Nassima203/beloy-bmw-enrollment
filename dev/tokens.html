@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token preview</title>
+  <!-- Dev-only page (not shipped): checks css/tokens.css by eye in both themes. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <style>
+    /* Only var(--…) below: no colour value in this file. */
+    body {
+      margin: 0;
+      padding: var(--space-8) var(--gutter);
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-family);
+      font-weight: var(--font-weight-body);
+      font-size: var(--font-size-body-1);
+      line-height: var(--line-height-body-1);
+    }
+    main { max-width: 64rem; margin: 0 auto; }
+    section { margin-block: var(--space-12); }
+    h1, h2 { font-weight: var(--font-weight-clickable); margin: 0 0 var(--space-6); }
+    h1 { font-size: var(--font-size-h1); line-height: var(--line-height-h1); }
+    h2 { font-size: var(--font-size-h3); line-height: var(--line-height-h3); }
+    .header { display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: space-between; align-items: center; }
+    .muted { color: var(--color-text-muted); font-size: var(--font-size-body-2); line-height: var(--line-height-body-2); }
+
+    /* Colour swatches */
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: var(--space-4); padding: 0; list-style: none; }
+    .swatch { border: var(--border-width) solid var(--color-border); border-radius: var(--radius); overflow: hidden; background: var(--color-surface); }
+    .swatch-chip { height: var(--space-16); border-bottom: var(--border-width) solid var(--color-border); }
+    .swatch-label { padding: var(--space-2) var(--space-3); font-size: var(--font-size-body-3); line-height: var(--line-height-body-3); }
+    .swatch-label code { display: block; font-weight: var(--font-weight-clickable); }
+
+    /* Type scale */
+    .type-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-4); padding-block: var(--space-2); border-bottom: var(--border-width) solid var(--color-border); }
+    .type-row code { min-width: 12rem; font-size: var(--font-size-label); line-height: var(--line-height-label); color: var(--color-text-muted); }
+    .price { font-variant-numeric: tabular-nums; }
+
+    /* Buttons */
+    .row { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; }
+    .btn {
+      min-height: var(--button-height-large);
+      padding: 0 var(--button-padding-x);
+      border: 0;
+      border-radius: var(--radius);
+      font: inherit;
+      font-size: var(--font-size-body-2);
+      font-weight: var(--font-weight-clickable);
+      cursor: pointer;
+      transition: background-color var(--duration-fast);
+    }
+    .btn-small { min-height: var(--button-height-small); }
+    .btn-primary { background: var(--color-accent); color: var(--color-accent-text); }
+    .btn-primary:hover, .btn-primary.is-hover { background: var(--color-accent-hover); }
+    .btn-primary:disabled { background: var(--color-accent-disabled-bg); color: var(--color-accent-disabled-text); cursor: not-allowed; }
+    .btn-secondary { background: var(--color-secondary); color: var(--color-secondary-text); }
+    .btn-secondary:hover, .btn-secondary.is-hover { background: var(--color-secondary-hover); }
+
+    /* Focus: 4px ring + 1px contrast outline (BMW --focus-visible-outside) */
+    .btn:focus-visible, .input:focus-visible, .input.is-focus {
+      outline: none;
+      box-shadow: 0 0 0 var(--focus-contrast-width) var(--color-focus-contrast),
+                  0 0 0 calc(var(--focus-contrast-width) + var(--focus-ring-width)) var(--color-focus);
+    }
+
+    /* Form field */
+    .field { display: grid; gap: var(--space-2); max-width: 22rem; }
+    .field label { font-size: var(--font-size-body-2); line-height: var(--line-height-body-2); font-weight: var(--font-weight-clickable); }
+    .input {
+      min-height: var(--button-height-large);
+      padding: 0 var(--space-4);
+      border: var(--border-width) solid var(--color-border-input);
+      border-radius: var(--radius);
+      background: var(--color-input-bg);
+      color: var(--color-text);
+      font: inherit;
+      font-weight: var(--font-weight-input);
+    }
+    .input:hover { border-color: var(--color-border-input-hover); }
+    .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--space-6); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="header">
+      <h1>Token preview</h1>
+      <button type="button" class="btn btn-secondary btn-small" id="theme-toggle">Dark theme</button>
+    </div>
+    <p class="muted">Semantic tokens from css/tokens.css. "Hover" and "focus" examples are forced with a class; the real states also work.</p>
+
+    <section aria-labelledby="colours-title">
+      <h2 id="colours-title">Colours</h2>
+      <ul class="swatches" id="swatches"></ul>
+    </section>
+
+    <section aria-labelledby="type-title">
+      <h2 id="type-title">Type scale</h2>
+      <div class="type-row"><code>h1 / 500</code><span style="font: var(--font-weight-clickable) var(--font-size-h1)/var(--line-height-h1) var(--font-family)">Electric cover</span></div>
+      <div class="type-row"><code>h2 / 500</code><span style="font: var(--font-weight-clickable) var(--font-size-h2)/var(--line-height-h2) var(--font-family)">Electric cover</span></div>
+      <div class="type-row"><code>h3 / 500</code><span style="font: var(--font-weight-clickable) var(--font-size-h3)/var(--line-height-h3) var(--font-family)">Electric cover</span></div>
+      <div class="type-row"><code>subsection-1 / 500</code><span style="font: var(--font-weight-clickable) var(--font-size-subsection-1)/var(--line-height-subsection-1) var(--font-family)">Your driver details</span></div>
+      <div class="type-row"><code>subsection-2 / 500</code><span style="font: var(--font-weight-clickable) var(--font-size-subsection-2)/var(--line-height-subsection-2) var(--font-family)">Your driver details</span></div>
+      <div class="type-row"><code>body-1 / 300</code><span style="font: var(--font-weight-body) var(--font-size-body-1)/var(--line-height-body-1) var(--font-family)">Cover for your BMW, your battery and your wallbox.</span></div>
+      <div class="type-row"><code>body-2 / 300</code><span style="font: var(--font-weight-body) var(--font-size-body-2)/var(--line-height-body-2) var(--font-family)">Cover for your BMW, your battery and your wallbox.</span></div>
+      <div class="type-row"><code>body-3 / 300</code><span style="font: var(--font-weight-body) var(--font-size-body-3)/var(--line-height-body-3) var(--font-family)">Cover for your BMW, your battery and your wallbox.</span></div>
+      <div class="type-row"><code>label / 500</code><span style="font: var(--font-weight-clickable) var(--font-size-label)/var(--line-height-label) var(--font-family)">Annual mileage</span></div>
+      <div class="type-row"><code>price / 700, tabular</code><span class="price" style="font: var(--font-weight-price) var(--font-size-price)/var(--line-height-price) var(--font-family)">816,00 €</span></div>
+    </section>
+
+    <section aria-labelledby="buttons-title">
+      <h2 id="buttons-title">Buttons</h2>
+      <div class="row">
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-primary is-hover">Primary hover</button>
+        <button type="button" class="btn btn-primary" disabled>Primary disabled</button>
+        <button type="button" class="btn btn-secondary">Secondary</button>
+        <button type="button" class="btn btn-secondary is-hover">Secondary hover</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="field-title">
+      <h2 id="field-title">Form field</h2>
+      <div class="fields">
+        <div class="field">
+          <label for="postcode">Postcode</label>
+          <input class="input" id="postcode" type="text" inputmode="numeric" placeholder="75008">
+        </div>
+        <div class="field">
+          <label for="postcode-focus">Postcode (focus forced)</label>
+          <input class="input is-focus" id="postcode-focus" type="text" inputmode="numeric" value="75008">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Every semantic colour token, shown as a swatch with its current value.
+    const colourTokens = [
+      '--color-bg', '--color-surface', '--color-surface-alt',
+      '--color-text', '--color-text-muted',
+      '--color-border', '--color-border-input', '--color-border-input-hover', '--color-input-bg',
+      '--color-accent', '--color-accent-hover', '--color-accent-text',
+      '--color-accent-disabled-bg', '--color-accent-disabled-text',
+      '--color-secondary', '--color-secondary-hover', '--color-secondary-text',
+      '--color-link', '--color-link-hover',
+      '--color-selected-bg', '--color-selected-border',
+      '--color-focus', '--color-focus-contrast',
+      '--color-error', '--color-error-bg',
+      '--color-success', '--color-success-bg', '--color-success-icon',
+      '--color-warning-bg', '--color-warning-icon'
+    ];
+
+    const list = document.getElementById('swatches');
+    for (const token of colourTokens) {
+      const item = document.createElement('li');
+      item.className = 'swatch';
+      item.innerHTML = `<div class="swatch-chip" style="background: var(${token})"></div>
+        <div class="swatch-label"><code>${token}</code><span class="value"></span></div>`;
+      list.append(item);
+    }
+
+    // Write the resolved value under each swatch (changes with the theme).
+    function showValues() {
+      const styles = getComputedStyle(document.documentElement);
+      list.querySelectorAll('.swatch').forEach((item, i) => {
+        item.querySelector('.value').textContent = styles.getPropertyValue(colourTokens[i]).trim();
+      });
+    }
+
+    // Theme toggle: starts from the OS preference, then forces data-theme on <html>.
+    const toggle = document.getElementById('theme-toggle');
+    let isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+
+    function applyTheme() {
+      document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+      toggle.textContent = isDark ? 'Light theme' : 'Dark theme';
+      showValues();
+    }
+
+    toggle.addEventListener('click', () => { isDark = !isDark; applyTheme(); });
+    applyTheme();
+  </script>
+</body>
+</html>

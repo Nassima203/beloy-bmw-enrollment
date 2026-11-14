@@ -1,0 +1,290 @@
+/*
+ * Design tokens: the only file allowed to contain colours and sizes.
+ * Source: notes/brand.md (values extracted from bmw.fr), AA fixes in notes/decisions.md.
+ * Components use the semantic tokens (section 2) only, never the primitives (section 1).
+ */
+
+/* 1. Primitives: raw BMW values and scales, never used directly by components. */
+:root {
+  /* BMW greys (bmw-variables.css) */
+  --bmw-white: #ffffff;
+  --bmw-black: #000000;
+  --bmw-grey-950: #262626; /* --heading, --copy-text */
+  --bmw-grey-800: #4d4d4d; /* --nba-hover, --input-border-color-hover */
+  --bmw-grey-600: #666666; /* --disclaimer */
+  --bmw-grey-500: #8e8e8e; /* --input-border-color */
+  --bmw-grey-300: #bbbbbb; /* --nba-disabled, dark --link-hover */
+  --bmw-grey-150: #e6e6e6; /* --border */
+  --bmw-grey-100: #f2f2f2; /* --neutral-background */
+  --bmw-grey-50: #f6f6f6;  /* --surface-background-secondary */
+
+  /* BMW blues */
+  --bmw-blue-500: #1c69d4; /* --cta */
+  --bmw-blue-600: #0653b6; /* --cta-hover */
+  --bmw-blue-200: #bbd2f3; /* --cta-disabled */
+  --bmw-blue-100: #dde8f9; /* --information-background */
+
+  /* BMW status colours */
+  --bmw-red-600: #d20000;    /* --error */
+  --bmw-red-50: #f7e7e9;     /* --error-background */
+  --bmw-green-500: #3db014;  /* --success */
+  --bmw-green-50: #e8f2eb;   /* --success-background */
+  --bmw-orange-400: #ffad1f; /* --warning */
+  --bmw-orange-50: #fbedc9;  /* --warning-background */
+
+  /* AA adjustments (brand.md, AA section) */
+  --aa-green-700: #2a7a0e; /* success text on light, 5.4:1 on white */
+  --aa-blue-300: #6ea0ec;  /* dark focus ring, 5.7:1 on #262626 */
+  --aa-red-300: #ff6b6b;   /* dark error, 5.5:1 on #262626 */
+
+  /* Invented dark-theme values (not on bmw.fr, see decisions.md) */
+  --dark-grey-975: #1a1a1a;  /* surface-alt */
+  --dark-blue-900: #0f2a4d;  /* selected background */
+  --dark-red-900: #3a1414;   /* error background */
+  --dark-green-900: #14301a; /* success background */
+  --dark-orange-900: #3d2e0a; /* warning background */
+
+  /* Spacing scale, multiples of 4px */
+  --size-1: 0.25rem;  /* 4px */
+  --size-2: 0.5rem;   /* 8px */
+  --size-3: 0.75rem;  /* 12px */
+  --size-4: 1rem;     /* 16px */
+  --size-5: 1.25rem;  /* 20px */
+  --size-6: 1.5rem;   /* 24px */
+  --size-8: 2rem;     /* 32px */
+  --size-10: 2.5rem;  /* 40px */
+  --size-12: 3rem;    /* 48px */
+  --size-16: 4rem;    /* 64px */
+
+  /* Shapes */
+  --radius-3: 3px;
+  --height-36: 2.25rem; /* --button-small-height */
+  --height-52: 3.25rem; /* --button-large-height */
+  --line-1: 1px;
+  --line-2: 2px;
+  --line-4: 0.25rem;
+
+  /* Font weights */
+  --weight-300: 300;
+  --weight-400: 400;
+  --weight-500: 500;
+  --weight-700: 700;
+
+  /* Type scale: clamp(mobile, fluid, desktop), fluid between 400px and 1280px viewports */
+  --fs-headline-1: clamp(2.0625rem, 2.0057rem + 0.2273vw, 2.1875rem); /* 33 → 35px */
+  --fs-headline-2: clamp(1.75rem, 1.7216rem + 0.1136vw, 1.8125rem);   /* 28 → 29px */
+  --fs-headline-3: clamp(1.4375rem, 1.3807rem + 0.2273vw, 1.5625rem); /* 23 → 25px */
+  --fs-subsection-1: clamp(1.1875rem, 1.1591rem + 0.1136vw, 1.25rem); /* 19 → 20px */
+  --fs-subsection-2: 1.0625rem; /* 17px, desktop not measured */
+  --fs-body-1: clamp(1rem, 0.9716rem + 0.1136vw, 1.0625rem);          /* 16 → 17px */
+  --fs-body-2: 0.875rem;  /* 14px */
+  --fs-body-3: 0.75rem;   /* 12px */
+  --fs-label-1: 0.75rem;  /* 12px */
+  --fs-price: 2.0625rem;  /* 33px, --stage-price-tag-price */
+
+  /* Line heights (BMW mobile values) */
+  --lh-headline-1: 2.875rem;   /* 46px */
+  --lh-headline-2: 2.5rem;     /* 40px */
+  --lh-headline-3: 2rem;       /* 32px */
+  --lh-subsection-1: 1.75rem;  /* 28px */
+  --lh-subsection-2: 1.625rem; /* 26px */
+  --lh-body-1: 1.625rem;       /* 26px */
+  --lh-body-2: 1.375rem;       /* 22px */
+  --lh-body-3: 1.125rem;       /* 18px */
+  --lh-label-1: 1rem;          /* 16px */
+  --lh-price: 2.1875rem;       /* 35px */
+
+  /* Animation durations */
+  --ms-150: 150ms;
+  --ms-250: 250ms;
+}
+
+/* 2. Semantic tokens: the only tokens components may use (light theme values). */
+:root {
+  color-scheme: light;
+
+  /* Surfaces */
+  --color-bg: var(--bmw-white);
+  --color-surface: var(--bmw-white);
+  --color-surface-alt: var(--bmw-grey-50);
+
+  /* Text */
+  --color-text: var(--bmw-grey-950);
+  --color-text-muted: var(--bmw-grey-600);
+
+  /* Borders and inputs */
+  --color-border: var(--bmw-grey-150);
+  --color-border-input: var(--bmw-grey-500);
+  --color-border-input-hover: var(--bmw-grey-800);
+  --color-input-bg: var(--bmw-white);
+
+  /* Primary action (blue) */
+  --color-accent: var(--bmw-blue-500);
+  --color-accent-hover: var(--bmw-blue-600);
+  --color-accent-text: var(--bmw-white);
+  --color-accent-disabled-bg: var(--bmw-blue-200);
+  --color-accent-disabled-text: var(--bmw-grey-600); /* AA fix 3 */
+
+  /* Secondary action (BMW "nba", black) */
+  --color-secondary: var(--bmw-grey-950);
+  --color-secondary-hover: var(--bmw-grey-800);
+  --color-secondary-text: var(--bmw-white);
+
+  /* Links */
+  --color-link: var(--bmw-grey-950);
+  --color-link-hover: var(--bmw-blue-500);
+
+  /* Selection (chosen package, ticked add-on) */
+  --color-selected-bg: var(--bmw-blue-100);
+  --color-selected-border: var(--bmw-blue-500);
+
+  /* Keyboard focus: 4px ring + 1px contrast outline */
+  --color-focus: var(--bmw-blue-500);
+  --color-focus-contrast: var(--bmw-white);
+
+  /* Status */
+  --color-error: var(--bmw-red-600);
+  --color-error-bg: var(--bmw-red-50);
+  --color-success: var(--aa-green-700); /* AA fix 1 */
+  --color-success-bg: var(--bmw-green-50);
+  --color-success-icon: var(--bmw-green-500);
+  --color-warning-bg: var(--bmw-orange-50); /* AA fix 2: warning is never text */
+  --color-warning-icon: var(--bmw-orange-400);
+
+  /* Typography */
+  --font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-weight-body: var(--weight-300);
+  --font-weight-input: var(--weight-400);
+  --font-weight-clickable: var(--weight-500);
+  --font-weight-price: var(--weight-700);
+
+  --font-size-h1: var(--fs-headline-1);
+  --font-size-h2: var(--fs-headline-2);
+  --font-size-h3: var(--fs-headline-3);
+  --font-size-subsection-1: var(--fs-subsection-1);
+  --font-size-subsection-2: var(--fs-subsection-2);
+  --font-size-body-1: var(--fs-body-1);
+  --font-size-body-2: var(--fs-body-2);
+  --font-size-body-3: var(--fs-body-3);
+  --font-size-label: var(--fs-label-1);
+  --font-size-price: var(--fs-price);
+
+  --line-height-h1: var(--lh-headline-1);
+  --line-height-h2: var(--lh-headline-2);
+  --line-height-h3: var(--lh-headline-3);
+  --line-height-subsection-1: var(--lh-subsection-1);
+  --line-height-subsection-2: var(--lh-subsection-2);
+  --line-height-body-1: var(--lh-body-1);
+  --line-height-body-2: var(--lh-body-2);
+  --line-height-body-3: var(--lh-body-3);
+  --line-height-label: var(--lh-label-1);
+  --line-height-price: var(--lh-price);
+
+  /* Spacing */
+  --space-1: var(--size-1);
+  --space-2: var(--size-2);
+  --space-3: var(--size-3);
+  --space-4: var(--size-4);
+  --space-5: var(--size-5);
+  --space-6: var(--size-6);
+  --space-8: var(--size-8);
+  --space-10: var(--size-10);
+  --space-12: var(--size-12);
+  --space-16: var(--size-16);
+  --gutter: var(--size-6); /* BMW grid side margin, 24px */
+
+  /* Shapes */
+  --radius: var(--radius-3);
+  --button-height-small: var(--height-36);
+  --button-height-large: var(--height-52);
+  --button-padding-x: var(--size-6); /* assumption, see brand.md */
+  --border-width: var(--line-1);
+  --border-width-strong: var(--line-2);
+  --focus-ring-width: var(--line-4);
+  --focus-contrast-width: var(--line-1);
+
+  /* Motion */
+  --duration-fast: var(--ms-150);
+  --duration-base: var(--ms-250);
+}
+
+/* 3. Dark theme: redefines semantic colours only (brand.md "Dark theme" table + AA fixes 4 and 5). */
+/* 3a. Explicit choice via the toggle. Keep in sync with 3b. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: var(--bmw-black);
+  --color-surface: var(--bmw-grey-950);
+  --color-surface-alt: var(--dark-grey-975);
+  --color-text: var(--bmw-white);
+  --color-text-muted: var(--bmw-grey-300);
+  --color-border: var(--bmw-grey-800);
+  --color-border-input: var(--bmw-grey-500);
+  --color-border-input-hover: var(--bmw-grey-300);
+  --color-input-bg: var(--bmw-grey-950);
+  --color-accent: var(--bmw-blue-500);
+  --color-accent-hover: var(--bmw-blue-600);
+  --color-accent-text: var(--bmw-white);
+  --color-accent-disabled-bg: var(--bmw-grey-800);
+  --color-accent-disabled-text: var(--bmw-grey-300);
+  --color-secondary: var(--bmw-white);
+  --color-secondary-hover: var(--bmw-grey-300);
+  --color-secondary-text: var(--bmw-grey-950);
+  --color-link: var(--bmw-white);
+  --color-link-hover: var(--bmw-grey-300);
+  --color-selected-bg: var(--dark-blue-900);
+  --color-selected-border: var(--aa-blue-300);
+  --color-focus: var(--aa-blue-300); /* AA fix 4 */
+  --color-focus-contrast: var(--bmw-white);
+  --color-error: var(--aa-red-300); /* AA fix 5 */
+  --color-error-bg: var(--dark-red-900);
+  --color-success: var(--bmw-green-500);
+  --color-success-bg: var(--dark-green-900);
+  --color-success-icon: var(--bmw-green-500);
+  --color-warning-bg: var(--dark-orange-900);
+  --color-warning-icon: var(--bmw-orange-400);
+}
+
+/* 3b. OS preference, unless the user forced light. Same values as 3a. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-bg: var(--bmw-black);
+    --color-surface: var(--bmw-grey-950);
+    --color-surface-alt: var(--dark-grey-975);
+    --color-text: var(--bmw-white);
+    --color-text-muted: var(--bmw-grey-300);
+    --color-border: var(--bmw-grey-800);
+    --color-border-input: var(--bmw-grey-500);
+    --color-border-input-hover: var(--bmw-grey-300);
+    --color-input-bg: var(--bmw-grey-950);
+    --color-accent: var(--bmw-blue-500);
+    --color-accent-hover: var(--bmw-blue-600);
+    --color-accent-text: var(--bmw-white);
+    --color-accent-disabled-bg: var(--bmw-grey-800);
+    --color-accent-disabled-text: var(--bmw-grey-300);
+    --color-secondary: var(--bmw-white);
+    --color-secondary-hover: var(--bmw-grey-300);
+    --color-secondary-text: var(--bmw-grey-950);
+    --color-link: var(--bmw-white);
+    --color-link-hover: var(--bmw-grey-300);
+    --color-selected-bg: var(--dark-blue-900);
+    --color-selected-border: var(--aa-blue-300);
+    --color-focus: var(--aa-blue-300);
+    --color-focus-contrast: var(--bmw-white);
+    --color-error: var(--aa-red-300);
+    --color-error-bg: var(--dark-red-900);
+    --color-success: var(--bmw-green-500);
+    --color-success-bg: var(--dark-green-900);
+    --color-success-icon: var(--bmw-green-500);
+    --color-warning-bg: var(--dark-orange-900);
+    --color-warning-icon: var(--bmw-orange-400);
+  }
+}
+
+/* 4. Reduced motion: no animation for users who ask for it. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+  }
+}
