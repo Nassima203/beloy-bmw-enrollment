@@ -28,3 +28,11 @@ export function yearsAgoIso(years) {
   date.setFullYear(date.getFullYear() - years);
   return toIsoDate(date);
 }
+
+// "2027-06-01" -> "1 June 2027" (en-GB) / "1 juin 2027" (fr-FR).
+// Built from the parts, so the date is never shifted by a time zone.
+export function formatDate(isoDate, locale) {
+  const [year, month, day] = isoDate.split('-').map(Number);
+  const formatter = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric' });
+  return formatter.format(new Date(year, month - 1, day));
+}

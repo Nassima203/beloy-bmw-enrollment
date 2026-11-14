@@ -173,6 +173,30 @@ export function createRadioGroup({ name, legendKey, hintKey = null, value = '', 
   return { element, inputs };
 }
 
+// A single checkbox with a sentence as its label (the consents).
+// Same error behaviour as the other fields.
+export function createCheckboxField({ name, labelKey, checked = false }) {
+  const id = nextId(name);
+  const element = document.createElement('div');
+  element.className = 'field';
+  element.dataset.fieldId = id;
+
+  const label = document.createElement('label');
+  label.className = 'choice choice--checkbox';
+
+  const input = document.createElement('input');
+  input.className = 'choice__input field__control';
+  input.type = 'checkbox';
+  input.id = id;
+  input.name = name;
+  input.checked = checked;
+  input.required = true;
+
+  label.append(input, textElement('span', 'choice__label', labelKey));
+  element.append(label, buildError(id));
+  return { element, input };
+}
+
 // Shows (messageKey) or clears (null) the error under a field.
 // setFieldError(postcode.element, 'flow.validation.postcodeInvalid')
 export function setFieldError(element, messageKey) {

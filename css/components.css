@@ -70,6 +70,23 @@
   background: var(--color-secondary-hover);
 }
 
+/* Outline: bordered, transparent (Copy buttons next to a value). */
+.button--outline {
+  border-color: var(--color-secondary);
+  background: var(--color-transparent);
+  color: var(--color-text);
+}
+
+.button--outline:hover {
+  background: var(--color-surface-alt);
+}
+
+/* Small: compact, but still a 44px touch target. */
+.button--small {
+  min-height: var(--target-size);
+  padding: 0 var(--space-4);
+}
+
 /* Ghost: text + icon, no box (used for Back). Negative margin lines the text up with the content. */
 .button--ghost {
   min-height: var(--target-size);
@@ -1016,5 +1033,306 @@ legend.field__label {
 
   .cover-total {
     justify-content: flex-start;
+  }
+}
+
+/* Checkbox with a sentence (consents): box at the top of the text. */
+.choice--checkbox {
+  align-items: flex-start;
+}
+
+.choice--checkbox .choice__input {
+  margin-top: var(--space-1);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Review: answers read back (js/screens/review.js)                          */
+/* ------------------------------------------------------------------------ */
+
+.summary {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.summary-card {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius);
+  background: var(--color-surface-alt);
+}
+
+.summary-card__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.summary-card__title {
+  font-size: var(--font-size-subsection-1);
+  line-height: var(--line-height-subsection-1);
+}
+
+/* Inline-flex + min-height: a 44px target around a short word. */
+.summary-card__change {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-size);
+  font-size: var(--font-size-body-2);
+}
+
+.summary-list {
+  display: grid;
+  margin: 0;
+}
+
+/* Phones: label above value. Tablet up: label left, value right. */
+.summary-list__row {
+  display: grid;
+  gap: var(--space-1);
+  padding-block: var(--space-3);
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.summary-list__label {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  color: var(--color-text-muted);
+}
+
+.summary-list__value {
+  margin: 0;
+  font-weight: var(--font-weight-input);
+}
+
+@media (min-width: 48em) {
+  .summary-card {
+    padding: var(--space-6);
+  }
+
+  .summary-list__row {
+    grid-template-columns: 2fr 3fr;
+    gap: var(--space-4);
+  }
+}
+
+/* Pre-contractual documents */
+.document-list {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.document-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--target-size);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+
+.document-link:hover {
+  border-color: var(--color-border-input-hover);
+}
+
+.document-link__name {
+  flex: 1;
+  text-decoration: underline;
+  text-underline-offset: var(--space-1);
+}
+
+.document-link__format {
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-label);
+  color: var(--color-text-muted);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Payment reference (js/screens/payment.js)                                 */
+/* ------------------------------------------------------------------------ */
+
+.policy {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.policy__label {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  font-weight: var(--font-weight-clickable);
+  color: var(--color-text-muted);
+}
+
+.policy__number {
+  font-size: var(--font-size-subsection-1);
+  line-height: var(--line-height-subsection-1);
+  overflow-wrap: anywhere;
+}
+
+.policy__period {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  color: var(--color-text-muted);
+}
+
+/* The card that holds entity, reference and amount together. */
+.payment-card {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  border: var(--border-width-strong) solid var(--color-text);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.payment-card__title {
+  font-size: var(--font-size-subsection-1);
+  line-height: var(--line-height-subsection-1);
+}
+
+.payment-card__list {
+  display: grid;
+  margin: 0;
+}
+
+.payment-row {
+  display: grid;
+  gap: var(--space-1);
+  padding-block: var(--space-4);
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.payment-row__label {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  font-weight: var(--font-weight-clickable);
+  color: var(--color-text-muted);
+}
+
+/* Phones: one column, the same in every row: value, hint (amount only), then a
+   full-width Copy button, easy to tap with a thumb. */
+.payment-row__body {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.payment-row__body .button {
+  width: 100%;
+}
+
+.payment-row__value {
+  font-size: var(--font-size-reference);
+  line-height: var(--line-height-reference);
+}
+
+.payment-row__hint {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  color: var(--color-text-muted);
+}
+
+.payment-card__due {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: var(--border-width) solid var(--color-border);
+  font-size: var(--font-size-subsection-1);
+  line-height: var(--line-height-subsection-1);
+}
+
+.payment-card__due strong {
+  font-weight: var(--font-weight-price);
+}
+
+/* Copy feedback. Always in the page (a live region must exist before it changes);
+   min-height keeps the card from growing when the message appears. */
+.payment-card__status {
+  min-height: var(--line-height-body-2);
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 48em) {
+  .payment-card {
+    padding: var(--space-8);
+  }
+
+  /* Tablet up: value on the left, Copy on the right, hint on its own line below. */
+  .payment-row__body {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    column-gap: var(--space-4);
+  }
+
+  .payment-row__body .button {
+    grid-column: 2;
+    grid-row: 1;
+    width: auto;
+  }
+
+  .payment-row__hint {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Highlighted note. Warning colour as background only, text stays normal (AA fix 2). */
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  background: var(--color-warning-bg);
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+}
+
+.notice__icon {
+  color: var(--color-text);
+}
+
+.next-steps {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.next-steps__list {
+  display: grid;
+  gap: var(--space-3);
+  padding-inline-start: var(--space-6);
+}
+
+.next-steps__list li::marker {
+  font-weight: var(--font-weight-price);
+}
+
+.payment-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* "Print or save this page": only what the customer needs on paper. */
+@media print {
+  .site-header__controls,
+  .flow-bar,
+  .site-footer,
+  .button,
+  .payment-card__status {
+    display: none !important;
+  }
+
+  .payment-card {
+    break-inside: avoid;
   }
 }

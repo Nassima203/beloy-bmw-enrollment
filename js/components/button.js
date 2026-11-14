@@ -13,18 +13,25 @@ const ICONS = {
     '<svg class="icon icon--small" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
     '<path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
     '</svg>',
+  copy:
+    '<svg class="icon icon--small" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+    '<rect x="8" y="8" width="12" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>' +
+    '<path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" fill="none" stroke="currentColor" stroke-width="2"/>' +
+    '</svg>',
 };
 
 // createButton({ labelKey: 'flow.common.continue', onClick: () => … })
-// variant: 'primary' | 'secondary' | 'ghost'
+// variant: 'primary' | 'secondary' | 'outline' | 'ghost'
 // type: 'button' | 'submit'
 // block: true makes it full width on phones (natural width from tablet up)
+// small: true for a compact button next to a value (still a 44px touch target)
 export function createButton({
   labelKey,
   variant = 'primary',
   type = 'button',
   icon = null,
   block = false,
+  small = false,
   onClick = null,
 }) {
   const button = document.createElement('button');
@@ -32,6 +39,9 @@ export function createButton({
   button.className = `button button--${variant}`;
   if (block) {
     button.classList.add('button--block');
+  }
+  if (small) {
+    button.classList.add('button--small');
   }
 
   if (icon) {
@@ -64,6 +74,13 @@ export function createButton({
   });
 
   return button;
+}
+
+// Changes the visible label, e.g. "Copy" -> "Copied" for a moment.
+export function setButtonLabel(button, labelKey) {
+  const label = button.querySelector('.button__label');
+  label.dataset.i18n = labelKey;
+  label.textContent = t(labelKey);
 }
 
 // Disabled = the customer cannot use it yet (nothing chosen, etc.).

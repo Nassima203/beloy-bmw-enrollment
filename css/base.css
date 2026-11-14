@@ -94,6 +94,13 @@ a:hover {
   font-variant-numeric: tabular-nums;
 }
 
+/* Values the customer copies down (policy number, payment reference). */
+.mono {
+  font-family: var(--font-family-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-clickable);
+}
+
 .text-muted {
   color: var(--color-text-muted);
 }
@@ -255,7 +262,29 @@ a:hover {
 }
 
 .form-actions {
+  display: grid;
+  gap: var(--space-4);
   padding-top: var(--space-2);
+}
+
+.form-actions__note {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  color: var(--color-text-muted);
+}
+
+/* Review form: titled sections with more space between them. */
+.form--sections {
+  gap: var(--space-10);
+}
+
+.form-section {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.form-section__lead {
+  color: var(--color-text-muted);
 }
 
 /* Footer */
