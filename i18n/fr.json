@@ -17,6 +17,9 @@
   "flow.common.languageLabel": "Langue",
   "flow.common.languageEn": "English",
   "flow.common.languageFr": "Français",
+  "flow.common.languageEnShort": "EN",
+  "flow.common.languageFrShort": "FR",
+  "flow.common.documentTitle": "{screen} – {site}",
   "flow.common.insurerLine": "Assurance proposée par Ardenne Assurance. Beloy gère ce service pour le compte de BMW France.",
 
   "flow.stepper.label": "Votre progression",

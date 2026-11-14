@@ -1,0 +1,413 @@
+/*
+ * Components: buttons, header switches, form fields, stepper, error panel.
+ * One block per component, in the same order as js/components/.
+ * Only semantic tokens from tokens.css.
+ */
+
+/* ------------------------------------------------------------------------ */
+/* Icons (inline SVG, drawn with currentColor so they follow the text colour) */
+/* ------------------------------------------------------------------------ */
+
+.icon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  flex-shrink: 0;
+}
+
+.icon--small {
+  width: var(--icon-size-small);
+  height: var(--icon-size-small);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Button (js/components/button.js)                                          */
+/* ------------------------------------------------------------------------ */
+
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--button-height-large);
+  padding: 0 var(--button-padding-x);
+  border: var(--border-width) solid var(--color-transparent);
+  border-radius: var(--radius);
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  font-weight: var(--font-weight-clickable);
+  text-align: center;
+  cursor: pointer;
+  transition: background-color var(--duration-fast), color var(--duration-fast);
+}
+
+/* Full width on phones, natural width from tablet up. */
+.button--block {
+  width: 100%;
+}
+
+@media (min-width: 48em) {
+  .button--block {
+    width: auto;
+  }
+}
+
+.button--primary {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+}
+
+.button--primary:hover {
+  background: var(--color-accent-hover);
+}
+
+.button--secondary {
+  background: var(--color-secondary);
+  color: var(--color-secondary-text);
+}
+
+.button--secondary:hover {
+  background: var(--color-secondary-hover);
+}
+
+/* Ghost: text + icon, no box (used for Back). Negative margin lines the text up with the content. */
+.button--ghost {
+  min-height: var(--target-size);
+  padding: 0 var(--space-2);
+  margin-inline-start: calc(-1 * var(--space-2));
+  background: var(--color-transparent);
+  color: var(--color-link);
+}
+
+.button--ghost:hover {
+  color: var(--color-link-hover);
+}
+
+/* Disabled (aria-disabled keeps it focusable). Not applied while loading. */
+.button[aria-disabled="true"]:not(.is-loading) {
+  cursor: not-allowed;
+}
+
+.button--primary[aria-disabled="true"]:not(.is-loading),
+.button--secondary[aria-disabled="true"]:not(.is-loading) {
+  background: var(--color-accent-disabled-bg);
+  color: var(--color-accent-disabled-text);
+}
+
+.button--ghost[aria-disabled="true"]:not(.is-loading) {
+  color: var(--color-text-muted);
+}
+
+/* Loading: same colours and height, a spinner before the loading label. */
+.button.is-loading {
+  cursor: progress;
+}
+
+.button__spinner {
+  display: none;
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+  border: var(--spinner-width) solid currentColor;
+  border-right-color: var(--color-transparent);
+  border-radius: 50%;
+  animation: spin var(--duration-spin) linear infinite;
+}
+
+.button.is-loading .button__spinner {
+  display: inline-block;
+}
+
+/* The icon makes way for the spinner, so the width barely changes. */
+.button.is-loading .icon {
+  display: none;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Header switches (markup in index.html, behaviour in js/main.js)           */
+/* ------------------------------------------------------------------------ */
+
+/* EN / FR: two joined buttons, the active one filled. */
+.lang-switch {
+  display: inline-flex;
+  border: var(--border-width) solid var(--color-border-input);
+  border-radius: var(--radius);
+}
+
+.lang-switch__option {
+  min-width: var(--target-size);
+  min-height: var(--target-size);
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--color-transparent);
+  color: var(--color-text);
+  font-size: var(--font-size-body-2);
+  font-weight: var(--font-weight-clickable);
+  cursor: pointer;
+}
+
+.lang-switch__option:hover {
+  background: var(--color-surface-alt);
+}
+
+.lang-switch__option[aria-pressed="true"] {
+  background: var(--color-secondary);
+  color: var(--color-secondary-text);
+}
+
+/* Square icon-only button (theme toggle). */
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--target-size);
+  height: var(--target-size);
+  padding: 0;
+  border: var(--border-width) solid var(--color-border-input);
+  border-radius: var(--radius);
+  background: var(--color-transparent);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: var(--color-surface-alt);
+}
+
+/* js/main.js always sets data-theme on <html>, so these two rules are enough. */
+:root[data-theme="dark"] .theme-toggle__moon,
+:root:not([data-theme="dark"]) .theme-toggle__sun {
+  display: none;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Field (js/components/field.js): text, date, number, select, radio group   */
+/* ------------------------------------------------------------------------ */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+
+.field__label {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  font-weight: var(--font-weight-clickable);
+}
+
+/* A <legend> does not follow flex gap; the padding gives the same spacing. */
+legend.field__label {
+  padding: 0 0 var(--space-2);
+}
+
+.field__optional {
+  font-weight: var(--font-weight-body);
+  color: var(--color-text-muted);
+}
+
+.field__hint {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  color: var(--color-text-muted);
+}
+
+.field__input {
+  width: 100%;
+  min-height: var(--button-height-large);
+  padding: 0 var(--space-4);
+  border: var(--border-width) solid var(--color-border-input);
+  border-radius: var(--radius);
+  background: var(--color-input-bg);
+  color: var(--color-text);
+  /* 16px or more stops iOS from zooming into the field. */
+  font-size: var(--font-size-body-1);
+  font-weight: var(--font-weight-input);
+}
+
+.field__input:hover {
+  border-color: var(--color-border-input-hover);
+}
+
+/* Error: thicker red edge drawn with a shadow, so the field does not grow. */
+.field__input[aria-invalid="true"] {
+  border-color: var(--color-error);
+  box-shadow: inset 0 0 0 var(--border-width) var(--color-error);
+}
+
+.field__input[aria-invalid="true"]:focus-visible {
+  box-shadow: 0 0 0 var(--focus-contrast-width) var(--color-focus-contrast);
+}
+
+/* Select: native control, our own chevron drawn with borders. */
+.field__select-wrap {
+  position: relative;
+}
+
+.field__select-wrap .field__input {
+  appearance: none;
+  padding-inline-end: var(--space-12);
+  cursor: pointer;
+}
+
+.field__select-wrap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: var(--space-5);
+  width: var(--space-2);
+  height: var(--space-2);
+  border-right: var(--border-width-strong) solid currentColor;
+  border-bottom: var(--border-width-strong) solid currentColor;
+  transform: translateY(-75%) rotate(45deg);
+  pointer-events: none;
+}
+
+/* Radio group: each option is a full-width tappable card. */
+.field__options {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--button-height-large);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--color-border-input);
+  border-radius: var(--radius);
+  background: var(--color-input-bg);
+  font-weight: var(--font-weight-input);
+  cursor: pointer;
+}
+
+.choice:hover {
+  border-color: var(--color-border-input-hover);
+}
+
+.choice:has(input:checked) {
+  border-color: var(--color-selected-border);
+  background: var(--color-selected-bg);
+  box-shadow: inset 0 0 0 var(--border-width) var(--color-selected-border);
+}
+
+.choice__input {
+  width: var(--space-5);
+  height: var(--space-5);
+  margin: 0;
+  flex-shrink: 0;
+  /* Selected-border passes 3:1 in both themes; the plain accent does not in dark. */
+  accent-color: var(--color-selected-border);
+}
+
+.choice:has(input[aria-invalid="true"]) {
+  border-color: var(--color-error);
+}
+
+/* Three short options sit side by side from tablet up. */
+@media (min-width: 48em) {
+  .field__options--inline {
+    grid-template-columns: repeat(auto-fit, minmax(var(--choice-min-width), 1fr));
+  }
+}
+
+.field__error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--color-error);
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  font-weight: var(--font-weight-input);
+}
+
+.field__error .icon {
+  margin-top: var(--space-1);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Stepper (js/components/stepper.js)                                        */
+/* ------------------------------------------------------------------------ */
+
+.stepper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.stepper__text {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
+.stepper__count {
+  font-weight: var(--font-weight-clickable);
+  color: var(--color-text);
+}
+
+/* Decorative bar: one segment per screen. The text above carries the meaning. */
+.stepper__track {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.stepper__segment {
+  flex: 1;
+  height: var(--stepper-height);
+  border-radius: var(--radius);
+  background: var(--color-border);
+  transition: background-color var(--duration-base);
+}
+
+.stepper__segment.is-done {
+  background: var(--color-selected-border);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Error panel (js/components/error-panel.js)                                */
+/* ------------------------------------------------------------------------ */
+
+.error-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  max-width: var(--content-width);
+  padding: var(--space-6);
+  border-left: var(--error-accent-width) solid var(--color-error);
+  border-radius: var(--radius);
+  background: var(--color-error-bg);
+}
+
+.error-panel__icon {
+  color: var(--color-error);
+}
+
+/* Same visual size whether the title is an h1 (whole screen) or an h2 (inside a screen). */
+.error-panel__title {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  font-weight: var(--font-weight-heading);
+}
+
+.error-panel__body {
+  max-width: var(--content-width);
+}
+
+@media (min-width: 48em) {
+  .error-panel {
+    padding: var(--space-8);
+  }
+}

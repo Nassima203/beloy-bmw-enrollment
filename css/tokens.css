@@ -53,8 +53,14 @@
   --size-6: 1.5rem;   /* 24px */
   --size-8: 2rem;     /* 32px */
   --size-10: 2.5rem;  /* 40px */
+  --size-11: 2.75rem; /* 44px, minimum touch target */
   --size-12: 3rem;    /* 48px */
   --size-16: 4rem;    /* 64px */
+
+  /* Layout widths */
+  --width-160: 10rem;  /* narrowest radio card in a row */
+  --width-640: 40rem;  /* readable form column */
+  --width-1120: 70rem; /* page container */
 
   /* Shapes */
   --radius-3: 3px;
@@ -97,6 +103,7 @@
   /* Animation durations */
   --ms-150: 150ms;
   --ms-250: 250ms;
+  --ms-800: 800ms;
 }
 
 /* 2. Semantic tokens: the only tokens components may use (light theme values). */
@@ -151,9 +158,13 @@
   --color-warning-bg: var(--bmw-orange-50); /* AA fix 2: warning is never text */
   --color-warning-icon: var(--bmw-orange-400);
 
+  /* No colour at all (spinner gap, ghost button background). Same in both themes. */
+  --color-transparent: transparent;
+
   /* Typography */
   --font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --font-weight-body: var(--weight-300);
+  --font-weight-heading: var(--weight-500);
   --font-weight-input: var(--weight-400);
   --font-weight-clickable: var(--weight-500);
   --font-weight-price: var(--weight-700);
@@ -202,10 +213,24 @@
   --border-width-strong: var(--line-2);
   --focus-ring-width: var(--line-4);
   --focus-contrast-width: var(--line-1);
+  --target-size: var(--size-11);     /* every control is at least 44 x 44px */
+  --icon-size: var(--size-6);
+  --icon-size-small: var(--size-4);
+  --spinner-size: var(--size-4);
+  --spinner-width: var(--line-2);
+  --stepper-height: var(--line-4);
+  --header-height: var(--size-16);
+  --error-accent-width: var(--line-4);
+
+  /* Layout */
+  --content-width: var(--width-640);
+  --choice-min-width: var(--width-160);
+  --page-width: var(--width-1120);
 
   /* Motion */
   --duration-fast: var(--ms-150);
   --duration-base: var(--ms-250);
+  --duration-spin: var(--ms-800);
 }
 
 /* 3. Dark theme: redefines semantic colours only (brand.md "Dark theme" table + AA fixes 4 and 5). */
@@ -286,5 +311,6 @@
   :root {
     --duration-fast: 0ms;
     --duration-base: 0ms;
+    --duration-spin: 0ms; /* the spinner shows as a still ring */
   }
 }

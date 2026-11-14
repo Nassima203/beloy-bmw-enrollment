@@ -26,3 +26,8 @@ Headings and body-1 scale with `clamp()` between a 400px viewport (BMW mobile me
 ### Dark theme selectors
 
 The dark values are written twice: under `:root[data-theme="dark"]` (manual toggle) and under `@media (prefers-color-scheme: dark)` on `:root:not([data-theme="light"])` (OS setting). Plain CSS can't share one block between the two selectors, so both copies must be edited together.
+
+- The landing has no stepper or Back button: its job is to make the customer want to continue, so it should feel like a product page, not a form. Steps are counted from the vehicle screen ("Step X of 5").
+- Back is hidden on the payment screen, because the policy is already issued.
+- Breakpoints are written as 48em directly, because CSS does not allow custom properties inside @media.
+- Answers live in memory only: the brief says a reload does not need to keep them.
