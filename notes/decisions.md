@@ -36,3 +36,5 @@ The dark values are written twice: under `:root[data-theme="dark"]` (manual togg
 - The total bar is sticky on desktop too, so the total stays visible while the customer picks add-ons. It has a fixed minimum height so nothing jumps when the first package is chosen.
 - The total is computed in one small module (pricing.js): package price + selected add-ons, for the chosen frequency, using the API figures only.
 - The Monthly/Yearly switch fills the full width on phones (both options equal), and goes back to its content width from tablet up so it does not stretch across the screen.
+
+- On phones, each payment row stacks label, value, hint and a full-width Copy button (44px touch target), so the three rows look the same whatever the value length. From tablet width up, the value and the Copy button sit side by side.
