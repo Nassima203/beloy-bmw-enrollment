@@ -218,7 +218,10 @@ export function render({ navigate }) {
 
   function handleAction(code, panel) {
     if (RETRYABLE_CODES.includes(code)) {
-      form.requestSubmit(); // "Try again"
+      // "Try again". The panel (which has focus) disappears on submit,
+      // so focus moves first to the button that shows the loading state.
+      submit.focus();
+      form.requestSubmit();
     } else if (code === 'consent_required') {
       hideAlert(); // "Go to the agreements": first unticked box
       const unticked = consentFields.find(({ control }) => !control.input.checked) ?? consentFields[0];
@@ -247,7 +250,9 @@ export function render({ navigate }) {
     }
   }
 
-  screen.append(header, createSummary(pkg), alertSlot, form);
+  // The panel goes after the form, right below the button the customer pressed:
+  // nothing above it moves when it appears or disappears.
+  screen.append(header, createSummary(pkg), form, alertSlot);
   return screen;
 }
 

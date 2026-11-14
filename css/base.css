@@ -167,10 +167,12 @@ a:hover {
   border-bottom: var(--border-width) solid var(--color-border);
 }
 
+/* One line at every width: on a narrow phone the wordmark wraps inside itself
+   ("BMW" over the product name) instead of pushing the switches to a second line. */
 .site-header__inner {
   min-height: var(--header-height);
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2) var(--space-4);
@@ -178,6 +180,7 @@ a:hover {
 }
 
 .site-header__controls {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: var(--space-2);

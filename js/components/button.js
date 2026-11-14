@@ -50,7 +50,7 @@ export function createButton({
 
   // Shown only while loading (CSS), so the button keeps its layout.
   const spinner = document.createElement('span');
-  spinner.className = 'button__spinner';
+  spinner.className = 'spinner button__spinner';
   spinner.setAttribute('aria-hidden', 'true');
 
   // data-i18n lets translateDom() update the label when the language changes.
@@ -97,9 +97,13 @@ export function setButtonLoading(button, isLoading, loadingKey = 'flow.common.lo
   if (isLoading) {
     button.dataset.idleKey = label.dataset.i18n;
     label.dataset.i18n = loadingKey;
+    // A shorter loading label must not shrink the button (house rule 7):
+    // keep at least the width it had. Measured at run time, not a design size.
+    button.style.minWidth = `${button.offsetWidth}px`;
   } else if (button.dataset.idleKey) {
     label.dataset.i18n = button.dataset.idleKey;
     delete button.dataset.idleKey;
+    button.style.minWidth = '';
   }
 
   label.textContent = t(label.dataset.i18n);

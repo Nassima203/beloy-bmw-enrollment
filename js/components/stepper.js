@@ -1,4 +1,4 @@
-// Stepper: "Step 2 of 5 · Driver" plus a bar with one segment per flow step.
+// Stepper: "Step 2 of 5 | Driver" plus a bar with one segment per flow step.
 // The text is what assistive technology reads; the bar is decorative (aria-hidden).
 
 import { t } from '../i18n.js';
@@ -32,8 +32,9 @@ export function updateStepper(element, { current, total, nameKey }) {
   name.className = 'stepper__name';
   name.textContent = t(nameKey);
 
-  // The separator is punctuation, not copy: it reads the same in both languages.
-  text.replaceChildren(count, ' · ', name);
+  // The divider between the two parts is drawn in CSS (no text in code, house rule 2).
+  // The space keeps screen readers from reading "5Driver" as one word.
+  text.replaceChildren(count, ' ', name);
 
   // Rebuild the segments: the ones up to the current screen are filled.
   track.replaceChildren();

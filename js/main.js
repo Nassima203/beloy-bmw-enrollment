@@ -1,6 +1,6 @@
 // Entry point: theme, language, the header switches, Back + stepper, then the router.
 
-import { loadLanguage, translateDom, getLanguage, t } from './i18n.js';
+import { loadLanguage, preloadLanguage, translateDom, getLanguage, t, DEFAULT_LANG } from './i18n.js';
 import { startRouter, renderCurrent, goBack, FLOW_STEPS } from './router.js';
 import { createButton } from './components/button.js';
 import { createStepper, updateStepper } from './components/stepper.js';
@@ -23,12 +23,19 @@ async function start() {
   // Theme first, so the page is painted in the right colours as early as possible.
   applyTheme(readPreference(THEME_STORAGE_KEY) ?? systemTheme());
 
+  const preferred = readPreference(LANG_STORAGE_KEY) ?? browserLanguage();
   try {
-    await loadLanguage(readPreference(LANG_STORAGE_KEY) ?? browserLanguage());
+    await loadLanguage(preferred);
   } catch (error) {
-    // Without a copy file there is no text to show at all.
     console.error(error);
-    return;
+    // One file failing should not leave a blank page: try English.
+    try {
+      await loadLanguage(DEFAULT_LANG);
+    } catch (fallbackError) {
+      // No copy file at all: there is no text we are allowed to show.
+      console.error(fallbackError);
+      return;
+    }
   }
 
   document.getElementById('back-slot').append(backButton);
@@ -43,6 +50,9 @@ async function start() {
     app: document.getElementById('app'),
     onRender: updateFlowBar,
   });
+
+  // After the first screen: fetch the other language so switching is instant.
+  preloadLanguage(getLanguage() === 'en' ? 'fr' : 'en');
 }
 
 // Called by the router after each screen is rendered.

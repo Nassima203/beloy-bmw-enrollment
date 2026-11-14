@@ -120,8 +120,10 @@
   cursor: progress;
 }
 
-.button__spinner {
-  display: none;
+/* Spinner: a ring with one side missing, turning. Used in buttons and the page loader. */
+.spinner {
+  display: inline-block;
+  flex-shrink: 0;
   width: var(--spinner-size);
   height: var(--spinner-size);
   border: var(--spinner-width) solid currentColor;
@@ -130,8 +132,26 @@
   animation: spin var(--duration-spin) linear infinite;
 }
 
+.spinner--large {
+  width: var(--icon-size-large);
+  height: var(--icon-size-large);
+}
+
+/* In a button, only while loading. */
+.button__spinner {
+  display: none;
+}
+
 .button.is-loading .button__spinner {
   display: inline-block;
+}
+
+/* Shown in <main> until the first screen is rendered (index.html). */
+.page-loader {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--space-16);
+  color: var(--color-text-muted);
 }
 
 /* The icon makes way for the spinner, so the width barely changes. */
@@ -253,6 +273,11 @@ legend.field__label {
 
 .field__input:hover {
   border-color: var(--color-border-input-hover);
+}
+
+/* iOS Safari centres the value of a date field; keep it aligned like the other fields. */
+.field__input::-webkit-date-and-time-value {
+  text-align: start;
 }
 
 /* Error: thicker red edge drawn with a shadow, so the field does not grow. */
@@ -390,6 +415,13 @@ legend.field__label {
 .stepper__count {
   font-weight: var(--font-weight-clickable);
   color: var(--color-text);
+}
+
+/* Thin vertical divider between "Step 2 of 5" and "Driver". */
+.stepper__name {
+  margin-inline-start: var(--space-1);
+  padding-inline-start: var(--space-2);
+  border-inline-start: var(--border-width) solid var(--color-border-input);
 }
 
 /* Decorative bar: one segment per screen. The text above carries the meaning. */
@@ -977,6 +1009,13 @@ legend.field__label {
 /* ------------------------------------------------------------------------ */
 /* Cover summary: running total + Continue, stuck to the bottom of the screen */
 /* ------------------------------------------------------------------------ */
+
+/* While the cover screen is shown, the browser keeps a focused element clear of
+   the sticky bar when it scrolls it into view (WCAG 2.4.11, focus not obscured).
+   The value is the bar's height on phones: button + total line + paddings and gap. */
+html:has(.cover-summary) {
+  scroll-padding-bottom: calc(var(--button-height-large) + var(--line-height-price) + var(--space-12));
+}
 
 /* Phones: full-width bar (negative margin cancels the page gutter). */
 .cover-summary {

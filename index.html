@@ -59,16 +59,21 @@
     </div>
   </header>
 
-  <!-- Back button and "Step X of 5", filled by js/main.js. Hidden on the landing. -->
-  <div class="flow-bar">
+  <!-- Back button and "Step X of 5", filled by js/main.js. Starts hidden so the
+       landing does not jump up once JS runs; main.js shows it on the flow steps. -->
+  <div class="flow-bar" hidden>
     <div class="container flow-bar__inner">
       <div class="flow-bar__back" id="back-slot"></div>
       <div class="flow-bar__stepper" id="stepper-slot"></div>
     </div>
   </div>
 
-  <!-- js/router.js renders one screen in here. tabindex="-1" lets the skip link focus it. -->
-  <main id="app" class="container page" tabindex="-1"></main>
+  <!-- js/router.js renders one screen in here. tabindex="-1" lets the skip link focus it.
+       Until the copy file and the first screen are loaded, a spinner (no text: the copy
+       is not loaded yet) and aria-busy give the wait a defined state (house rule 7). -->
+  <main id="app" class="container page" tabindex="-1" aria-busy="true">
+    <div class="page-loader" aria-hidden="true"><span class="spinner spinner--large"></span></div>
+  </main>
 
   <footer class="site-footer">
     <div class="container">

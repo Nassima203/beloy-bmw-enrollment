@@ -13,20 +13,36 @@ const LOCALES = {
 let currentLang = DEFAULT_LANG;
 let strings = {};
 
-// Fetches the copy file for `lang` (falls back to English if unknown).
+// Copy files already downloaded, by language. Only successful loads are kept.
+const cache = {};
+
+// Fetches a copy file once; later calls answer from the cache.
 // The URL is resolved from this module's location, so it works from any page.
+async function fetchStrings(lang) {
+  if (!cache[lang]) {
+    const url = new URL(`../i18n/${lang}.json`, import.meta.url);
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`[i18n] Could not load ${url} (HTTP ${response.status})`);
+    }
+    cache[lang] = await response.json();
+  }
+  return cache[lang];
+}
+
+// Makes `lang` the current language (falls back to English if unknown).
 export async function loadLanguage(lang) {
   const safeLang = lang in LOCALES ? lang : DEFAULT_LANG;
-  const url = new URL(`../i18n/${safeLang}.json`, import.meta.url);
-
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`[i18n] Could not load ${url} (HTTP ${response.status})`);
-  }
-
-  strings = await response.json();
+  strings = await fetchStrings(safeLang);
   currentLang = safeLang;
   document.documentElement.lang = safeLang;
+}
+
+// Downloads the other language in the background, so the EN/FR switch is
+// instant (no wait without feedback). A failure here is ignored on purpose:
+// the real switch will try again and report it.
+export function preloadLanguage(lang) {
+  fetchStrings(lang).catch(() => {});
 }
 
 // Returns the string for `key`, with {placeholders} replaced from `params`.

@@ -1,6 +1,13 @@
 # Decisions
 
+## Brand
+- Colours come from BMW's own CSS custom properties on :root (bmw.fr). The dark theme is based on BMW's .ctx-mode--dark sections.
+- Typeface: Inter (Google Fonts) instead of the licensed BMW Type Next: close in shape, has the four weights BMW uses (300, 400, 500, 700) and tabular figures for prices and the payment reference.
+- Logo: a typographic wordmark of my own, no roundel.
+
 ## Design tokens (css/tokens.css)
+
+Two levels: primitives (BMW values) and semantic tokens (roles). Components only use semantic tokens, so changing one primitive recolours the whole flow.
 
 ### AA adjustments to BMW colours (house rule 4)
 
@@ -27,14 +34,24 @@ Headings and body-1 scale with `clamp()` between a 400px viewport (BMW mobile me
 
 The dark values are written twice: under `:root[data-theme="dark"]` (manual toggle) and under `@media (prefers-color-scheme: dark)` on `:root:not([data-theme="light"])` (OS setting). Plain CSS can't share one block between the two selectors, so both copies must be edited together.
 
+## Flow and layout
 - The landing has no stepper or Back button: its job is to make the customer want to continue, so it should feel like a product page, not a form. Steps are counted from the vehicle screen ("Step X of 5").
 - Back is hidden on the payment screen, because the policy is already issued.
 - Breakpoints are written as 48em directly, because CSS does not allow custom properties inside @media.
 - Answers live in memory only: the brief says a reload does not need to keep them.
+- On first load, the page shows a spinner with aria-busy until the first screen renders, and the flow bar starts hidden, so nothing jumps.
+- Both language files are cached and the second one is fetched in the background, so switching is instant. If a copy file fails, the app falls back to English rather than showing a blank page.
+- Inter loads with display=swap: text can reflow once on the very first visit, but the brand typeface always shows. display=optional would avoid the reflow but could leave a first-time visitor on the system font.
 
+## Cover screen
 - Included add-ons are real disabled checkboxes: Tab skips them, but their "Included" label is still read. They are never sent in the contract options.
 - The total bar is sticky on desktop too, so the total stays visible while the customer picks add-ons. It has a fixed minimum height so nothing jumps when the first package is chosen.
 - The total is computed in one small module (pricing.js): package price + selected add-ons, for the chosen frequency, using the API figures only.
 - The Monthly/Yearly switch fills the full width on phones (both options equal), and goes back to its content width from tablet up so it does not stretch across the screen.
 
+## Review and payment
+- On an expired quote, the customer is re-priced with their saved answers and taken back to the cover screen to confirm the new prices, rather than starting over.
+- The payment reference uses the system monospace font (SF Mono, Menlo, Consolas), so nothing extra is downloaded. Inter's tabular figures are used everywhere else.
+- Entity, reference and amount are shown together in one card, each with its own Copy button. The reference is copied without spaces and the amount without the € sign, because a banking app expects bare digits.
 - On phones, each payment row stacks label, value, hint and a full-width Copy button (44px touch target), so the three rows look the same whatever the value length. From tablet width up, the value and the Copy button sit side by side.
+- The payment screen has a print stylesheet, so the customer can print or save the reference as a PDF.

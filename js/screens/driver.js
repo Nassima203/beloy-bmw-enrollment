@@ -244,7 +244,7 @@ export function render({ navigate }) {
 
   function showAlert(code) {
     const onAction = RETRYABLE_CODES.includes(code)
-      ? () => form.requestSubmit() // "Try again": same answers, new call
+      ? () => retry() // "Try again": same answers, new call
       : () => editAnswers(code); // "Edit my answers" / "Check my answers"
 
     const panel = createErrorPanel({ code, onAction });
@@ -258,13 +258,22 @@ export function render({ navigate }) {
     alertSlot.replaceChildren();
   }
 
+  // The panel (which has focus) disappears on submit, so focus moves first to
+  // the submit button, where the loading state is shown.
+  function retry() {
+    submit.focus();
+    form.requestSubmit();
+  }
+
   // driver_ineligible is about the licence date or the claims: start at the licence.
   function editAnswers(code) {
     hideAlert();
     focusField(code === 'driver_ineligible' ? licenceSince : birthDate);
   }
 
-  screen.append(header, alertSlot, form);
+  // The panel goes after the form, right below the button the customer pressed:
+  // nothing above it moves when it appears or disappears.
+  screen.append(header, form, alertSlot);
   return screen;
 }
 

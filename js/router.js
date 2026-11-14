@@ -85,6 +85,10 @@ export async function renderCurrent({ moveFocus }) {
   renderCount += 1;
   const thisRender = renderCount;
 
+  // The current screen stays visible while the next one loads; aria-busy tells
+  // assistive technology the content is about to change.
+  app.setAttribute('aria-busy', 'true');
+
   let view;
   try {
     const screen = await import(`./screens/${route.screen}.js`);
@@ -104,6 +108,7 @@ export async function renderCurrent({ moveFocus }) {
   }
 
   app.replaceChildren(view);
+  app.removeAttribute('aria-busy');
   if (onRender) {
     onRender(route, index);
   }
