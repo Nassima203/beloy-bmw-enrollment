@@ -31,3 +31,8 @@ The dark values are written twice: under `:root[data-theme="dark"]` (manual togg
 - Back is hidden on the payment screen, because the policy is already issued.
 - Breakpoints are written as 48em directly, because CSS does not allow custom properties inside @media.
 - Answers live in memory only: the brief says a reload does not need to keep them.
+
+- Included add-ons are real disabled checkboxes: Tab skips them, but their "Included" label is still read. They are never sent in the contract options.
+- The total bar is sticky on desktop too, so the total stays visible while the customer picks add-ons. It has a fixed minimum height so nothing jumps when the first package is chosen.
+- The total is computed in one small module (pricing.js): package price + selected add-ons, for the chosen frequency, using the API figures only.
+- The Monthly/Yearly switch fills the full width on phones (both options equal), and goes back to its content width from tablet up so it does not stretch across the screen.
