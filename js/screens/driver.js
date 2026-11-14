@@ -100,7 +100,7 @@ export function render({ navigate }) {
     name: 'parking',
     legendKey: 'flow.driver.parkingLabel',
     value: driver.parking,
-    inline: true,
+    layout: 'inline',
     options: ['garage', 'driveway', 'street'].map((value) => ({
       value,
       labelKey: `flow.driver.parking.${value}`,
@@ -111,7 +111,7 @@ export function render({ navigate }) {
     name: 'charging',
     legendKey: 'flow.driver.chargingLabel',
     value: driver.charging,
-    inline: true,
+    layout: 'inline',
     options: ['home', 'work', 'public'].map((value) => ({
       value,
       labelKey: `flow.driver.charging.${value}`,

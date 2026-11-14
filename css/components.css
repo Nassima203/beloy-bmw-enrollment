@@ -622,3 +622,399 @@ legend.field__label {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+/* ------------------------------------------------------------------------ */
+/* Segmented radio group (field.js, layout: 'segmented'): yearly / monthly   */
+/* ------------------------------------------------------------------------ */
+
+/* Phones: full width, both options equally wide. Tablet up: as wide as its content. */
+.field__options--segmented {
+  display: flex;
+  gap: 0;
+  border: var(--border-width) solid var(--color-border-input);
+  border-radius: var(--radius);
+}
+
+.field__options--segmented .choice {
+  position: relative;
+  flex: 1 1 0; /* equal widths, whatever the label length */
+  justify-content: center;
+  min-height: var(--target-size);
+  padding: 0 var(--space-6);
+  border: 0;
+  background: var(--color-transparent);
+  font-size: var(--font-size-body-2);
+  font-weight: var(--font-weight-clickable);
+}
+
+/* The radio stays in the page (keyboard, screen readers) but the segment is the visual. */
+.field__options--segmented .choice__input {
+  position: absolute;
+  opacity: 0;
+}
+
+.field__options--segmented .choice:has(input:checked) {
+  background: var(--color-secondary);
+  color: var(--color-secondary-text);
+  box-shadow: none;
+}
+
+.field__options--segmented .choice:has(input:focus-visible) {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--focus-contrast-width);
+  box-shadow: 0 0 0 var(--focus-contrast-width) var(--color-focus-contrast);
+}
+
+@media (min-width: 48em) {
+  /* The fieldset is a flex column: align-self stops the switch stretching across. */
+  .field__options--segmented {
+    align-self: flex-start;
+  }
+
+  .field__options--segmented .choice {
+    flex: 0 0 auto;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Cover screen groups (js/screens/cover.js)                                 */
+/* ------------------------------------------------------------------------ */
+
+.cover-group {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.cover-group__legend {
+  padding: 0 0 var(--space-4);
+}
+
+.cover-group__lead {
+  max-width: var(--content-width);
+  color: var(--color-text-muted);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Package card (js/components/package-card.js)                              */
+/* ------------------------------------------------------------------------ */
+
+/* Stacked on phones, three side by side from tablet up. */
+.package-list {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 48em) {
+  .package-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.package-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: var(--border-width) solid var(--color-border-input);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: border-color var(--duration-fast), background-color var(--duration-fast);
+}
+
+.package-card:hover {
+  border-color: var(--color-border-input-hover);
+}
+
+/* Selected: blue edge drawn twice as thick (inset shadow, no layout shift) + tinted background. */
+.package-card:has(input:checked) {
+  border-color: var(--color-selected-border);
+  background: var(--color-selected-bg);
+  box-shadow: inset 0 0 0 var(--border-width) var(--color-selected-border);
+}
+
+/* Keyboard focus is shown on the whole card, not just the small radio. */
+.package-card:has(input:focus-visible) {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--focus-contrast-width);
+}
+
+.package-card__input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.package-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.package-card__input {
+  width: var(--space-5);
+  height: var(--space-5);
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: var(--color-selected-border);
+}
+
+.package-card__name {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  font-weight: var(--font-weight-heading);
+}
+
+.package-card__description {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  color: var(--color-text-muted);
+}
+
+.package-card__price {
+  padding-block: var(--space-4);
+  border-block: var(--border-width) solid var(--color-border);
+}
+
+.package-card__amount {
+  font-size: var(--font-size-price);
+  line-height: var(--line-height-price);
+  font-weight: var(--font-weight-price);
+}
+
+.package-card__includes {
+  display: grid;
+  gap: var(--space-2);
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+}
+
+.package-card__includes-title {
+  font-weight: var(--font-weight-clickable);
+}
+
+.package-card__includes-list {
+  display: grid;
+  gap: var(--space-1);
+  padding: 0;
+  list-style: none;
+}
+
+.package-card__includes-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Pushed to the bottom so the three cards line up. */
+.package-card__status {
+  margin-top: auto;
+  font-size: var(--font-size-body-2);
+  font-weight: var(--font-weight-clickable);
+}
+
+.package-card__choose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--button-height-small);
+  border: var(--border-width) solid var(--color-secondary);
+  border-radius: var(--radius);
+}
+
+.package-card__selected {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--button-height-small);
+}
+
+.package-card:has(input:checked) .package-card__choose {
+  display: none;
+}
+
+.package-card:has(input:checked) .package-card__selected {
+  display: flex;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Add-on rows (js/screens/cover.js)                                         */
+/* ------------------------------------------------------------------------ */
+
+.addon-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* Empty state, before a package is chosen. */
+.addon-list__empty {
+  padding: var(--space-6);
+  border: var(--border-width) dashed var(--color-border-input);
+  border-radius: var(--radius);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* Phones: checkbox | name + description, price underneath. Tablet up: price on the right. */
+.addon {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-2) var(--space-4);
+  align-items: start;
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--color-border-input);
+  border-radius: var(--radius);
+  background: var(--color-input-bg);
+  cursor: pointer;
+}
+
+.addon:hover {
+  border-color: var(--color-border-input-hover);
+}
+
+.addon:has(input:checked) {
+  border-color: var(--color-selected-border);
+  background: var(--color-selected-bg);
+  box-shadow: inset 0 0 0 var(--border-width) var(--color-selected-border);
+}
+
+/* Included: part of the package, so it reads as settled, not as a choice. */
+.addon.is-included,
+.addon.is-included:hover {
+  border-color: var(--color-border);
+  background: var(--color-surface-alt);
+  box-shadow: none;
+  cursor: default;
+}
+
+.addon__input {
+  width: var(--space-5);
+  height: var(--space-5);
+  margin: var(--space-1) 0 0;
+  accent-color: var(--color-selected-border);
+}
+
+.addon__text {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.addon__name {
+  font-weight: var(--font-weight-clickable);
+}
+
+.addon__description {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  color: var(--color-text-muted);
+}
+
+.addon__price {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-2);
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+}
+
+.addon__amount {
+  font-size: var(--font-size-body-1);
+  font-weight: var(--font-weight-price);
+}
+
+.addon__included-hint {
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 48em) {
+  .addon {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .addon__price {
+    grid-column: 3;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+  }
+}
+
+/* Small status label ("Included"). Success colours pass AA in both themes. */
+.badge {
+  display: inline-block;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius);
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-body-2);
+  font-weight: var(--font-weight-clickable);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Cover summary: running total + Continue, stuck to the bottom of the screen */
+/* ------------------------------------------------------------------------ */
+
+/* Phones: full-width bar (negative margin cancels the page gutter). */
+.cover-summary {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-3);
+  margin-inline: calc(-1 * var(--gutter));
+  padding: var(--space-4) var(--gutter);
+  border-top: var(--border-width) solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.cover-total {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+  /* Same height empty or filled, so the bar does not jump when a package is chosen. */
+  min-height: var(--line-height-price);
+}
+
+.cover-total__label {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  font-weight: var(--font-weight-clickable);
+}
+
+.cover-total__value.is-empty {
+  font-size: var(--font-size-body-2);
+  line-height: var(--line-height-body-2);
+  color: var(--color-text-muted);
+}
+
+.cover-total__amount {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-price);
+  font-weight: var(--font-weight-price);
+}
+
+/* Tablet up: a boxed bar, total on the left, Continue on the right. */
+@media (min-width: 48em) {
+  .cover-summary {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--space-8);
+    margin-inline: 0;
+    padding: var(--space-4) var(--space-6);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .cover-total {
+    justify-content: flex-start;
+  }
+}

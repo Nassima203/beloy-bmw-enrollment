@@ -13,3 +13,5 @@
 6. The order provides the model and list price, but no price is given per model. If the customer corrects the model, the configured price stays at the order value, since the API needs list_price.
 
 7. The brief does not set a minimum age for holding a licence, so the form only checks that the licence date is after the date of birth. Licence length and claims are left to the API, as the documentation says.
+
+8. "Nothing is selected when the screen opens": I read this as nothing selected for a new quote. If the customer comes back from Review, their earlier choice is kept.

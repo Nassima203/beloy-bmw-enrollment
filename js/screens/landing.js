@@ -1,7 +1,7 @@
 // Screen 1: landing. Says what the cover is, what it starts from, and offers one way in.
 // Built like a product page (hero, price tag, benefits), with no form fields.
 
-import { t, getLocale, createTextElement } from '../i18n.js';
+import { t, tWithElement, getLocale, createTextElement } from '../i18n.js';
 import { formatMoney } from '../money.js';
 import { createButton } from '../components/button.js';
 
@@ -69,12 +69,9 @@ function createPriceTag() {
   amount.className = 'price-tag__amount tabular';
   amount.textContent = formatMoney(t('flow.landing.fromPrice'), getLocale());
 
-  // t() without params leaves "{amount}" in place, so the sentence can be split
-  // around it. The word order stays whatever each language file says.
-  const [before, after] = t('flow.landing.from').split('{amount}');
   const sentence = document.createElement('p');
   sentence.className = 'price-tag__sentence';
-  sentence.append(before, amount, after);
+  sentence.append(...tWithElement('flow.landing.from', 'amount', amount));
 
   tag.append(sentence, createTextElement('p', 'price-tag__note', 'flow.landing.fromNote'));
   return tag;

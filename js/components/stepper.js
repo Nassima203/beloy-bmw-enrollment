@@ -1,4 +1,4 @@
-// Stepper: "Step 3 of 6 · Driver" plus a bar with one segment per screen.
+// Stepper: "Step 2 of 5 · Driver" plus a bar with one segment per flow step.
 // The text is what assistive technology reads; the bar is decorative (aria-hidden).
 
 import { t } from '../i18n.js';
@@ -19,7 +19,7 @@ export function createStepper() {
 }
 
 // Called on every screen change and every language change.
-// updateStepper(stepper, { current: 3, total: 6, nameKey: 'flow.stepper.driver' })
+// updateStepper(stepper, { current: 2, total: 5, nameKey: 'flow.stepper.driver' })
 export function updateStepper(element, { current, total, nameKey }) {
   const text = element.querySelector('.stepper__text');
   const track = element.querySelector('.stepper__track');

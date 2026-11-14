@@ -142,13 +142,14 @@ export function createSelectField({ name, labelKey, hintKey = null, value = '', 
 }
 
 // A question with a few answers, as a <fieldset> of radio cards.
-// inline: true puts the options side by side from tablet up.
-export function createRadioGroup({ name, legendKey, hintKey = null, value = '', options, inline = false }) {
+// layout: 'stacked' (one per line), 'inline' (side by side from tablet up)
+// or 'segmented' (a compact two- or three-way switch, e.g. yearly / monthly).
+export function createRadioGroup({ name, legendKey, hintKey = null, value = '', options, layout = 'stacked' }) {
   const id = nextId(name);
   const element = buildShell({ tag: 'fieldset', id, labelKey: legendKey, hintKey, optional: false });
 
   const list = document.createElement('div');
-  list.className = inline ? 'field__options field__options--inline' : 'field__options';
+  list.className = `field__options field__options--${layout}`;
 
   const inputs = options.map((option) => {
     const label = document.createElement('label');

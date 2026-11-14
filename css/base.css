@@ -231,6 +231,15 @@ a:hover {
   max-width: var(--content-width);
 }
 
+/* Cover screen: three cards side by side need the full page width. */
+.screen--wide {
+  max-width: none;
+}
+
+.screen--wide > .screen__header {
+  max-width: var(--content-width);
+}
+
 .screen__header {
   display: grid;
   gap: var(--space-3);

@@ -72,6 +72,15 @@ export function createTextElement(tag, className, key) {
   return element;
 }
 
+// Like t(), but one {placeholder} becomes an element, e.g. a bold amount.
+// Returns [textBefore, element, textAfter], ready for parent.append(...).
+// Word order stays whatever each language file says ("From {amount} a month",
+// "À partir de {amount} par mois").
+export function tWithElement(key, name, element) {
+  const [before, after = ''] = t(key).split(`{${name}}`);
+  return [before, element, after];
+}
+
 // Fills static markup: <span data-i18n="flow.common.skipLink"></span>
 export function translateDom(root = document) {
   root.querySelectorAll('[data-i18n]').forEach((element) => {
