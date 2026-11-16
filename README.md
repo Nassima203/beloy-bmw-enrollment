@@ -32,7 +32,7 @@ js/
   components/         button, field, stepper, package-card, error-panel
   screens/            landing, vehicle, driver, cover, review, payment
 dev/tokens.html       Preview of every token, both themes (not part of the app)
-notes/                Brand extraction, decisions, remarks
+notes/                Brand extraction, decisions, remarks, AI log
 ```
 
 ## Tokens
