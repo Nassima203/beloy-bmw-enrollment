@@ -1,13 +1,11 @@
 # Project: BMW x Ardenne Assurance enrollment flow (Beloy case study)
 
-Take-home exercise for the Junior Front-End Developer role at Beloy.
+Enrollment flow for an electric vehicle cover, branded as BMW, built for the Beloy take-home exercise.
 The brief and the API documentation are in `docs/` (read them before any significant task):
 - `docs/brief.pdf`: the full brief
 - `docs/api.pdf`: the Ardenne Assurance API contract
 - `notes/brand.md`: what I extracted from bmw.fr (colours, type, spacing, dark theme, AA adjustments)
 - `notes/bmw-variables.css`, `notes/bmw-dark.css`: raw CSS custom properties copied from bmw.fr
-
-Deadline: Tuesday 17 November 2026, 9am. Budget: about 4 hours of actual work.
 
 ## What we are building
 
@@ -63,7 +61,7 @@ docs/         brief.pdf api.pdf (not versioned)
 
 ## How to work with me
 
-- I must be able to explain every line in the interview: simple, readable code, no unnecessary tricks, short comments where it is not obvious.
+- Keep the code simple and readable: no unnecessary tricks, short comments where it is not obvious.
 - Work in small steps. Before a big task, propose a plan and wait for my approval.
 - After each step, summarise in 3 lines what was done and why, so I can log it in `notes/ai-log.md`.
 - If something in the brief is ambiguous, tell me (I log it in `notes/remarks.md`) rather than silently guessing.
