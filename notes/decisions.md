@@ -55,3 +55,6 @@ The dark values are written twice: under `:root[data-theme="dark"]` (manual togg
 - Entity, reference and amount are shown together in one card, each with its own Copy button. The reference is copied without spaces and the amount without the € sign, because a banking app expects bare digits.
 - On phones, each payment row stacks label, value, hint and a full-width Copy button (44px touch target), so the three rows look the same whatever the value length. From tablet width up, the value and the Copy button sit side by side.
 - The payment screen has a print stylesheet, so the customer can print or save the reference as a PDF.
+
+## Known limit
+- One radius token (--radius) is used for buttons, inputs and cards. A brand with pill-shaped buttons would also round the cards. I found this while practising a rebrand on two other sites. Next step: split it into --radius-button and --radius-card.

@@ -1,21 +1,23 @@
-# Remarks on the brief and API documentation
+# Remarks on the brief
 
-1. The brief doesn't say whether the "from" price on the landing is yearly or monthly, or whether it should match an API figure. I used monthly, at the Essential price (€38.50 / month).
+The brief was clear. These are small points where I had to make a choice.
 
-2. The payment model (entity + reference, paid at a cash machine or in a banking app) is the Portuguese Multibanco system, not a standard French payment method. I kept the next-step copy generic ("pay with a reference").
+1. **The "from" price.** The brief does not say if it is a monthly or a yearly price. I used the monthly price of the Essential package (€38.50 a month), because it is the lowest price.
 
-3. The API docs say a 500 internal_error is "safe to retry once", but not what the customer should see if the retry also fails. I show a "Try again" action with a plain explanation, and the code goes to the console only.
+2. **The payment method.** Paying with an entity and a reference at a cash machine looks like Multibanco, a system used in Portugal. It is not common in France, so I wrote simple, general steps.
 
-4. The API says a licence held "less than two years" is refused, but not counted from when: today or the delivery date. I count from today.
+3. **Server error (500).** The documentation says we can retry once. It does not say what to show if it fails again. I show a clear message with a "Try again" button. The error code only goes to the console.
 
-5. The docs say every figure is fixed, but a contract for an annual customer returning the monthly example amount would contradict the payment screen. My stub computes the premium from the quote figures for the chosen selection and frequency, as a real server would.
+4. **"Licence held for less than two years".** The documentation does not say from which date the two years are counted. I count them from today. In a real project, the insurer's API decides.
 
-6. The order provides the model and list price, but no price is given per model. If the customer corrects the model, the configured price stays at the order value, since the API needs list_price.
+5. **Monthly or yearly amount.** The contract example always returns the monthly amount. A customer who pays yearly would see the wrong amount. So my API stub returns the amount for the frequency the customer chose.
 
-7. The brief does not set a minimum age for holding a licence, so the form only checks that the licence date is after the date of birth. Licence length and claims are left to the API, as the documentation says.
+6. **Price of each model.** The customer can change the car model, but the brief does not give a price for each model. If the model changes, I keep the price from the order.
 
-8. "Nothing is selected when the screen opens": I read this as nothing selected for a new quote. If the customer comes back from Review, their earlier choice is kept.
+7. **Licence and age.** The brief does not give a minimum age for the licence. I only check that the licence date is after the date of birth. The insurance rules are checked by the API.
 
-9. The brief does not say which phone formats to accept. I accept French numbers ("06 12 34 56 78") and send them in international format (+33612345678), as in the API example.
+8. **Nothing selected on the cover screen.** For a new quote, no package is selected. If the customer comes back from the review screen, I keep their choice, so they don't have to choose again.
 
-10. Changing the car or driver from Review means a new quote, so the customer picks a package again. New answers can mean new prices, so this seemed right, but it could surprise someone.
+9. **Phone number format.** The brief does not say which formats to accept. I accept French numbers like "06 12 34 56 78" and send them as "+33612345678", like the example in the API documentation.
+
+10. **Changing answers from the review screen.** If the customer changes their car or driver details, they get new prices, so they choose a package again. This is logical, but it could surprise someone.
